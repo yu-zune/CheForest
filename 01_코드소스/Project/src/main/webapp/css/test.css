@@ -1,0 +1,148 @@
+@charset "UTF-8";
+
+:root {
+  --main-green: #1e8a57;
+  --hover-green: #118e6a;
+  --blue: #2773d1;
+  --shadow: 0 4px 24px rgba(30,138,87,.06);
+}
+
+body {
+  background: #f8f9fa;
+  font-family: "Gowun Dodum","Rubik", sans-serif;
+  margin: 0;
+  line-height: 1.6;
+}
+
+#page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+}
+
+#s-screen, #q-screen, #r-screen {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 70px 48px 56px 48px;
+  width: 600px;
+  max-width: 96vw;
+  margin: 0 auto;
+  display: block;
+  transition: box-shadow 0.14s;
+  text-align: center;
+}
+
+.start-img {
+  width: 252px;
+  height: 252px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 18px auto;
+}
+
+#q-screen h2#q-no {
+  font-size: 1.3rem;
+  color: var(--main-green);
+  margin-bottom: 6px;
+  font-weight: bold;
+  letter-spacing: -0.5px;
+}
+
+#q-screen h2#q-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #242a25;
+  margin-bottom: 32px;
+  letter-spacing: -1px;
+}
+
+/* progress bar */
+#progress-bar-wrap {
+  width: 100%;
+  margin-bottom: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#progress-text {
+  font-size: 0.9rem;
+  color: #444;
+  margin-bottom: 6px;
+}
+#progress-bar-bg {
+  width: 80%;
+  max-width: 320px;
+  height: 11px;
+  background: #ececec;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(30,138,87,0.08);
+}
+#progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--main-green) 70%, #43e97b 100%);
+  border-radius: 8px 0 0 8px;
+  transition: width 0.38s cubic-bezier(0.4,0.2,0.2,1.1);
+}
+
+#a-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  justify-content: center;
+  align-items: flex-end;
+  margin-top: 18px;
+}
+.select-img {
+  width: 252px;
+  height: 252px;
+  object-fit: contain;
+  border-radius: 18px;
+  background: #f6f9f8;
+  margin-bottom: 10px;
+  display: block;
+}
+.my-btn {
+  padding: 15px 0;
+  width: 100%;
+  font-size: 1.13rem;
+  font-family: 'Gowun Dodum', sans-serif;
+  font-weight: bold;
+  border-radius: 14px;
+  background: linear-gradient(90deg, var(--main-green) 90%, #22b36e 100%);
+  color: #fff;
+  border: none;
+  box-shadow: 0 3px 12px rgba(30,138,87,0.13);
+  transition: background 0.13s, color 0.11s, transform 0.10s;
+  cursor: pointer;
+  outline: none;
+}
+.my-btn:hover {
+  background: linear-gradient(90deg, #43e97b 20%, var(--main-green) 100%);
+  color: #fff;
+  transform: scale(1.04) rotate(-1.2deg);
+}
+.result-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 18px;
+}
+.result-btns .my-btn {
+  width: 180px;
+  max-width: 100%;
+  min-width: 120px;
+  padding: 15px 0;
+}
+#r-screen h3 {
+  font-size: 2.3rem;
+  color: var(--main-green);
+  margin: 16px 0 28px 0;
+  font-weight: bold;
+  letter-spacing: -2px;
+}

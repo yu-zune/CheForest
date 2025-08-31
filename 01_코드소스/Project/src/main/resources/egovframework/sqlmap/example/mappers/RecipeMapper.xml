@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="egovframework.example.recipe.service.impl.RecipeMapper">
+
+<!-- 상세 조회/랜덤 조회는 기존대로 유지 -->
+<select id="selectRecipe"
+			 parameterType="String"
+			 resultType="egovframework.example.recipe.service.RecipeVO">
+	SELECT RECIPE_ID,TITLE_KR,CATEGORY_KR,
+	INSTRUCTION_KR,INGREDIENT_KR,MEASURE_KR,THUMBNAIL FROM API_RECIPE
+	WHERE RECIPE_ID = #{recipeId}
+</select>
+
+<select id="selectRandomRecipesByCategory" resultType="egovframework.example.recipe.service.RecipeVO">
+	SELECT *
+	FROM API_RECIPE
+	WHERE CATEGORY_KR = #{categoryKr}
+	ORDER BY DBMS_RANDOM.VALUE
+	FETCH FIRST #{count} ROWS ONLY
+</select>
+
+<!-- 페이징+검색+카테고리 (리스트) -->
+<select id="selectRecipeListPaging"
+        resultType="egovMap"
+        parameterType="egovframework.example.common.Criteria">
+    SELECT RECIPE_ID, TITLE_KR, THUMBNAIL
+    FROM API_RECIPE
+    <where>
+        <if test="categoryKr != null and categoryKr != ''">
+            AND CATEGORY_KR = #{categoryKr}
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND TITLE_KR LIKE '%' || #{searchKeyword} || '%'
+        </if>
+    </where>
+    ORDER BY RECIPE_ID DESC
+    OFFSET #{firstIndex} ROWS
+    FETCH NEXT #{pageUnit} ROWS ONLY
+</select>
+
+<!-- 페이징+검색+카테고리 (총 개수) -->
+<select id="getTotalRecipeCount"
+        resultType="int"
+        parameterType="egovframework.example.common.Criteria">
+    SELECT COUNT(*)
+    FROM API_RECIPE
+    <where>
+        <if test="categoryKr != null and categoryKr != ''">
+            AND CATEGORY_KR = #{categoryKr}
+        </if>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND TITLE_KR LIKE '%' || #{searchKeyword} || '%'
+        </if>
+    </where>
+</select>
+
+<select id="selectAllRecipeThumb" resultType="egovframework.example.recipe.service.RecipeVO">
+    SELECT RECIPE_ID, THUMBNAIL FROM API_RECIPE
+</select>
+
+<update id="updateThumbnailPath" parameterType="egovframework.example.recipe.service.RecipeVO">
+    UPDATE API_RECIPE
+    SET THUMBNAIL = #{thumbnail}
+    WHERE RECIPE_ID = #{recipeId}
+</update>
+<!-- 좋아요 많은 순 인기 레시피 TOP 10 -->
+<select id="selectBestRecipes" resultType="egovframework.example.recipe.service.RecipeVO">
+    SELECT
+        RECIPE_ID,
+        TITLE_KR,
+        CATEGORY_KR,
+        INSTRUCTION_KR,
+        INGREDIENT_KR,
+        MEASURE_KR,
+        THUMBNAIL,
+        LIKE_COUNT
+    FROM API_RECIPE
+    ORDER BY LIKE_COUNT DESC, RECIPE_ID DESC
+    FETCH FIRST 10 ROWS ONLY
+</select>
+
+<delete id="deleteRecipeLike" parameterType="String">
+    DELETE FROM BOARD_LIKE WHERE RECIPE_ID = #{recipeId}
+</delete>
+
+<delete id="deleteRecipe" parameterType="String">
+    DELETE FROM API_RECIPE WHERE RECIPE_ID = #{recipeId}
+</delete>
+
+</mapper>
